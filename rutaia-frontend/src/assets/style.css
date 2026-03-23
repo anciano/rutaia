@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* PrimeVue Overrides for System Visual Guide */
+body .p-dialog-mask {
+  background-color: rgba(15, 23, 42, 0.4) !important; /* Tailwind gray-900 at 40% opacity */
+  backdrop-filter: blur(4px);
+}

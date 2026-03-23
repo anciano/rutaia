@@ -1,0 +1,14 @@
+ID: 3 | Name: Reserva Nacional Coyhaique | Type: place
+ID: 22 | Name: Descubre Coyhaique | Type: place
+ID: 70 | Name: Ferry Puerto Yungay - Río Bravo | Type: transport
+ID: 71 | Name: Coyhaique y Chile Chico | Type: place
+ID: 94 | Name: Coyhaique Centro | Type: place
+ID: 96 | Name: Copec Coyhaique | Type: place
+ID: 95 | Name: Puyuhuapi Pueblo | Type: place
+ID: 106 | Name: Hospital Regional Coyhaique | Type: place
+ID: 107 | Name: Banco Estado Coyhaique | Type: place
+ID: 110 | Name: Hospital de Cochrane | Type: place
+ID: 111 | Name: Supermercado El Arriero Cochrane | Type: place
+ID: 113 | Name: Posta Villa O'Higgins | Type: place
+ID: 112 | Name: Terminal de Buses Cochrane | Type: place
+ID: 114 | Name: Rampa Villa O'Higgins (Ferry) | Type: place
