@@ -15,7 +15,8 @@ const mensaje = ref('')
 const respuesta = ref('')
 
 const enviar = async () => {
-  const res = await axios.post('http://localhost:8000/chat', { content: mensaje.value })
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+  const res = await axios.post(`${apiUrl}/chat`, { content: mensaje.value })
   respuesta.value = res.data.response
 }
 </script>
