@@ -10,9 +10,9 @@ export function getChatHistory(userId) {
 }
 
 // Si tu backend expone un endpoint para enviar mensajes:
-// export function sendMessage(userId, text) {
-//   return axios.post('/chat/send', { user_id: userId, text })
-// }
+export function sendMessage(userId, text) {
+  return axios.post('/chat/send', { user_id: userId, text })
+}
 
 // — Planificaciones —
 export function listPlans(userId) {
