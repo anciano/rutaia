@@ -57,6 +57,9 @@ app.include_router(planificacion_router)
 app.include_router(plan_detalle_router)
 app.include_router(ia_router)
 
+from app.routes.auth import router as auth_router
+app.include_router(auth_router)
+
 app.include_router(auth_google.router)   # OAuth con Google al final (orden no crítico)
 
 # Stage 9 — Admin Catalog API
