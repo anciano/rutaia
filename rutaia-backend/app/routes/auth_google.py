@@ -19,8 +19,8 @@ from app.settings import (
 
 @router.get('/google')
 async def login_google(request: Request):
-    redirect_uri = request.url_for('google_callback')
-    return await oauth.google.authorize_redirect(request, redirect_uri)
+    # Usar la URI de redirección explícita de la configuración para evitar mismatch con proxy
+    return await oauth.google.authorize_redirect(request, GOOGLE_REDIRECT_URI)
 
 @router.get('/google/callback')
 async def google_callback(request: Request, db: Session = Depends(get_db)):
