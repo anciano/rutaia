@@ -24,7 +24,8 @@ async def login_google(request: Request):
 
 @router.get('/google/callback')
 async def google_callback(request: Request, db: Session = Depends(get_db)):
-    token  = await oauth.google.authorize_access_token(request)
+    # También pasamos la URI explícitamente aquí para evitar discrepancias por el proxy
+    token  = await oauth.google.authorize_access_token(request, redirect_uri=GOOGLE_REDIRECT_URI)
     data   = token.get('userinfo')
     if not data:
         raise HTTPException(400, 'No se pudo obtener perfil de Google')
