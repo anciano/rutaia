@@ -30,14 +30,15 @@ app = FastAPI(title="RutaIA Backend")
 app.add_middleware(
     SessionMiddleware,
     secret_key=JWT_SECRET,
-    https_only=False,          # pon True en producción HTTPS
-    session_cookie="session"
+    https_only=True,           # True en producción con HTTPS
+    session_cookie="session",
+    same_site="lax"
 )
 
 # 2️⃣  CORS (frontend en Vite)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["https://rutaia.cl", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -19,13 +19,12 @@ from app.settings import (
 
 @router.get('/google')
 async def login_google(request: Request):
-    # Usar la URI de redirección explícita de la configuración para evitar mismatch con proxy
-    return await oauth.google.authorize_redirect(request, GOOGLE_REDIRECT_URI)
+    redirect_uri = request.url_for('google_callback')
+    return await oauth.google.authorize_redirect(request, redirect_uri)
 
 @router.get('/google/callback')
 async def google_callback(request: Request, db: Session = Depends(get_db)):
-    # También pasamos la URI explícitamente aquí para evitar discrepancias por el proxy
-    token  = await oauth.google.authorize_access_token(request, redirect_uri=GOOGLE_REDIRECT_URI)
+    token  = await oauth.google.authorize_access_token(request)
     data   = token.get('userinfo')
     if not data:
         raise HTTPException(400, 'No se pudo obtener perfil de Google')
