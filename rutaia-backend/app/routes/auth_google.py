@@ -14,7 +14,7 @@ router = APIRouter(prefix='/auth', tags=['auth'])
 
 from app.settings import (
     GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET,
-    GOOGLE_REDIRECT_URI, JWT_SECRET
+    GOOGLE_REDIRECT_URI, JWT_SECRET, FRONTEND_URL
 )
 
 @router.get('/google')
@@ -40,11 +40,11 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
     # 2) emitir JWT propio
     jwt_data = {
         'sub': str(user.id),
-        'role': 'user',
+        'role': user.role,
         'exp': datetime.utcnow() + timedelta(hours=12)
     }
     access_token = jwt.encode(jwt_data, JWT_SECRET, algorithm='HS256')
 
     # 3) redirigir al frontend con el token (query o fragment)
-    url_front = f"{request.headers.get('origin', 'http://localhost:5173')}/login?token={access_token}"
+    url_front = f"{FRONTEND_URL}/login?token={access_token}"
     return RedirectResponse(url_front)

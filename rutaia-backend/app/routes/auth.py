@@ -5,12 +5,13 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from datetime import timedelta, datetime
 import jwt  # pip install PyJWT
-from passlib.hash import bcrypt
+import bcrypt
 from app.models.database import get_db
 from app.models.user import User
+from app.settings import settings
 
 # Configura esto según tu secreto y algoritmo
-JWT_SECRET = "TU_SECRETO_SUPER_SEGURO"
+JWT_SECRET = settings.JWT_SECRET
 JWT_ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
@@ -32,8 +33,12 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Credenciales inválidas")
 
     # 2) Verifica contraseña
-    if not bcrypt.verify(request.password, user.password_hash):
-        raise HTTPException(status_code=401, detail="Credenciales inválidas")
+    try:
+        if not bcrypt.checkpw(request.password.encode('utf-8'), user.password_hash.encode('utf-8')):
+            raise HTTPException(status_code=401, detail="Credenciales inválidas")
+    except Exception:
+         # Fallback o captura de errores de formato en el hash
+         raise HTTPException(status_code=401, detail="Credenciales inválidas")
 
     # 3) Crea el JWT
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)

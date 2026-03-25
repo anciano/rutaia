@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     DATABASE_URL         : str
     OPENAI_API_KEY       : str
     VITE_API_URL         : str
+    FRONTEND_URL         : str = "http://localhost:5173"
     OSRM_BASE_URL        : str = "http://router.project-osrm.org" # Fallback a demo si no hay local
 
     model_config = SettingsConfigDict(
@@ -24,4 +25,5 @@ GOOGLE_REDIRECT_URI  = settings.GOOGLE_REDIRECT_URI
 JWT_SECRET           = settings.JWT_SECRET
 OPENAI_API_KEY       = settings.OPENAI_API_KEY
 VITE_API_URL         = settings.VITE_API_URL
+FRONTEND_URL         = settings.FRONTEND_URL
 OSRM_BASE_URL        = settings.OSRM_BASE_URL

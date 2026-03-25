@@ -24,6 +24,7 @@ const RegionalExplorer = () => import('@/features/admin/views/RegionalExplorer.v
 const LocalAgenda = () => import('@/features/admin/views/LocalAgenda.vue')
 const TaxonomyManager = () => import('@/features/admin/views/TaxonomyManager.vue')
 const LocalityManager = () => import('@/features/admin/views/LocalityManager.vue')
+const AdminUsuarios = () => import('@/features/admin/views/AdminUsuarios.vue')
 
 /* ─── Definición de rutas ─────────────────────────────────────────── */
 const routes = [
@@ -57,6 +58,7 @@ const routes = [
       { path: 'admin/agenda', name: 'LocalAgenda', component: LocalAgenda },
       { path: 'admin/taxonomy', name: 'AdminTaxonomy', component: TaxonomyManager },
       { path: 'admin/localities', name: 'AdminLocalities', component: LocalityManager },
+      { path: 'admin/usuarios', name: 'AdminUsuarios', component: AdminUsuarios },
     ]
   }
 ]
@@ -96,11 +98,11 @@ router.beforeEach(async (to, from, next) => {
   }
 
   const tienePlanes = store.plans.length > 0
-  //const esWizard    = to.path.startsWith('/plan/')
-  const esWizard = /^\/plan\/[1-6](\/|$)/.test(to.path)   // solo /plan/1…/plan/6
+  const esWizard = /^\/plan\/[1-6](\/|$)/.test(to.path)
+  const esAdmin = to.path.startsWith('/admin') || to.path === '/chat' || to.path === '/usuarios'
 
-  /* 4. Sin planes y fuera del wizard → forzamos Paso1 */
-  if (!tienePlanes && !esWizard) return next('/plan/1')
+  /* 4. Sin planes y fuera del wizard/admin → forzamos Paso1 */
+  if (!tienePlanes && !esWizard && !esAdmin) return next('/plan/1')
 
   /* 5. Con planes y quiere ir al wizard manualmente → permitido */
   // if (tienePlanes && esWizard && to.name === 'Paso1') {

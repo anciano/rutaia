@@ -9,7 +9,7 @@ class Actividad(Base):
     __tablename__ = "actividades"
 
     id                      = Column(Integer, primary_key=True, index=True)
-    ciudad_id               = Column(String,  ForeignKey("ciudades.id"), nullable=True)
+    ciudad_id               = Column(Integer, ForeignKey("ciudades.id"), nullable=True)
     nombre                  = Column(String, nullable=False)
     descripcion             = Column(Text, nullable=True)
     duracion_estimada_horas   = Column(Float, nullable=True)

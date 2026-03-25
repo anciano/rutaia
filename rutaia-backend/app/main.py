@@ -17,6 +17,7 @@ from app.routes.ciudades      import router as ciudades_router
 from app.routes.preferencias  import router as preferencias_router
 from app.routes.planificacion import router as planificacion_router
 from app.routes.plan_detalle  import router as plan_detalle_router
+from app.routes.usuarios      import router as usuarios_router
 from app.routes.lugares       import router as lugares_router
 from app.routes.hospedajes    import router as hospedajes_router
 from app.routes.actividades   import router as actividades_router
@@ -56,6 +57,7 @@ app.include_router(transportes_router)
 
 app.include_router(planificacion_router)
 app.include_router(plan_detalle_router)
+app.include_router(usuarios_router)
 app.include_router(ia_router)
 
 from app.routes.auth import router as auth_router

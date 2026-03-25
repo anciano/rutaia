@@ -83,6 +83,35 @@ def listar_planificaciones(user_id: str = Query(...), db: Session = Depends(get_
         })
     return resultados
 
+@router.get("/planificaciones/activa", response_model=Optional[PlanOutput], summary="Obtener la planificación activa del usuario")
+def obtener_planificacion_activa(user_id: str = Query(..., description="ID del usuario"), db: Session = Depends(get_db)):
+    # Busca el primer plan con estado 'activo' para este usuario
+    plan = db.query(UserPlan).filter(
+        UserPlan.user_id == user_id,
+        UserPlan.estado == "activo"
+    ).order_by(UserPlan.fecha_inicio.desc()).first()
+    
+    if not plan:
+        return None  # Retornamos null con 200 OK para que el frontend maneje el caso "sin plan"
+
+    # Carga nombre de ciudad
+    ciudad = db.get(Ciudad, plan.origen_id)
+    nombre_ciudad = ciudad.nombre if ciudad else None
+
+    return {
+        "id"            : plan.id,
+        "origen_id"     : plan.origen_id,
+        "origen"        : nombre_ciudad,
+        "participantes" : plan.participantes,
+        "preferencias"  : plan.preferencias,
+        "dias"          : plan.dias,
+        "presupuesto"   : plan.presupuesto,
+        "fecha_inicio"  : plan.fecha_inicio,
+        "fecha_fin"     : plan.fecha_fin,
+        "transport_mode": plan.transport_mode,
+        "estado"        : plan.estado
+    }
+
 @router.get(
     "/planificaciones/{plan_id}",
     response_model=PlanOutput,

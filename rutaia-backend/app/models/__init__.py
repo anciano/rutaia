@@ -42,3 +42,5 @@ from .item_link        import ItemLink
 from .catalog_transport_segment import CatalogTransportSegment
 from .catalog_event      import CatalogEvent
 from .destination_profile import DestinationProfile
+from .locality import Locality
+from .message import Message

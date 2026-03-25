@@ -7,6 +7,7 @@ from app.seeds.lugares         import seed_lugares
 from app.seeds.hospedajes      import seed_hospedajes
 from app.seeds.actividades     import seed_actividades
 from app.seeds.transportes     import seed_transportes
+from app.seeds.catalog_v2      import seed_catalog_v2
 
 if __name__ == "__main__":
     print("🌱 Sembrando datos maestros…")
@@ -16,5 +17,6 @@ if __name__ == "__main__":
     seed_hospedajes()
     seed_actividades()
     seed_transportes()
+    seed_catalog_v2()
     seed_users()
     print("✅ Seeds completados.")

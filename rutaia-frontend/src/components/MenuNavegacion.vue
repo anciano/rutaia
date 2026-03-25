@@ -9,14 +9,33 @@
         <i :class="isDark ? 'pi pi-moon' : 'pi pi-sun'"></i>
       </button>
       <div class="w-px h-6 bg-gray-200"></div>
-      <router-link to="/chat" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Chat</router-link>
+
+      <!-- Chat: Admin -->
+      <router-link v-if="role === 'admin'" to="/chat" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Chat</router-link>
+
+      <!-- Planificaciones: Todos -->
       <router-link to="/historial" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Planificaciones</router-link>
+
       <div class="w-px h-6 bg-gray-200"></div>
-      <router-link to="/admin/catalog" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Catálogo</router-link>
+
+      <!-- Catálogo: Admin, Gestor -->
+      <router-link v-if="role === 'admin' || role === 'gestor'" to="/admin/catalog" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Catálogo</router-link>
+
+      <!-- Explorador: Todos -->
       <router-link to="/admin/explorer" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Explorador</router-link>
-      <router-link to="/admin/taxonomy" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Taxonomía</router-link>
-      <router-link to="/admin/localities" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Localidades</router-link>
-      <router-link to="/admin/agenda" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Agenda Local</router-link>
+
+      <!-- Usuarios: Admin -->
+      <router-link v-if="role === 'admin'" to="/admin/usuarios" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Usuarios</router-link>
+
+      <!-- Taxonomía: Admin -->
+      <router-link v-if="role === 'admin'" to="/admin/taxonomy" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Taxonomía</router-link>
+
+      <!-- Localidades: Admin -->
+      <router-link v-if="role === 'admin'" to="/admin/localities" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Localidades</router-link>
+
+      <!-- Agenda Local: Admin, Gestor -->
+      <router-link v-if="role === 'admin' || role === 'gestor'" to="/admin/agenda" class="text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">Agenda Local</router-link>
+
       <router-link to="/login" class="text-sm font-bold text-gray-400 hover:text-gray-800 transition-colors" @click="logout" title="Cerrar sesión">
         <i class="pi pi-sign-out"></i>
       </router-link>
@@ -25,9 +44,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 const isDark = ref(false)
+const usuario = ref({})
+
+const role = computed(() => {
+  return usuario.value?.role || 'user'
+})
+
+function loadUser() {
+  try {
+    const data = localStorage.getItem('usuario')
+    if (data && data !== 'undefined') {
+      usuario.value = JSON.parse(data)
+    }
+  } catch (e) {
+    console.error('Error loading user', e)
+    usuario.value = {}
+  }
+}
 
 function toggleTheme() {
   const element = document.documentElement
@@ -37,7 +73,8 @@ function toggleTheme() {
 }
 
 onMounted(() => {
-  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  loadUser()
+  if (localStorage.theme === 'dark') {
     document.documentElement.classList.add('dark')
     isDark.value = true
   } else {

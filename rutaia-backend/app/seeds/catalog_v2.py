@@ -14,19 +14,19 @@ def seed_catalog_v2():
         
         # 1. Categorías Base
         cats = [
-            {"name": "Glaciares"},
-            {"name": "Parques Nacionales"},
-            {"name": "Restaurantes"},
-            {"name": "Gasolineras"},
-            {"name": "Buses"},
-            {"name": "Campings"},
+            {"name": "Glaciares", "slug": "glaciares"},
+            {"name": "Parques Nacionales", "slug": "parques-nacionales"},
+            {"name": "Restaurantes", "slug": "restaurantes"},
+            {"name": "Gasolineras", "slug": "gasolineras"},
+            {"name": "Buses", "slug": "buses"},
+            {"name": "Campings", "slug": "campings"},
         ]
         
         cat_map = {}
         for c in cats:
             existing = db.query(CatalogCategory).filter_by(name=c["name"]).first()
             if not existing:
-                new_cat = CatalogCategory(name=c["name"])
+                new_cat = CatalogCategory(name=c["name"], slug=c["slug"])
                 db.add(new_cat)
                 db.flush()
                 cat_map[c["name"]] = new_cat.id
